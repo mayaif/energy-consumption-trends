@@ -5,6 +5,9 @@ import cors from "cors";
 import mysql from "mysql2/promise";
 import { json } from "body-parser";
 import { EnergyData, analyzeTrend } from "./energyAnalysis";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(json());
@@ -13,11 +16,11 @@ app.use(cors());
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT) : 3001;
 
 const dbConfig = {
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "*UH&YG6tf5rd",
-  database: "energy_market",
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME || "energy_market",
 };
 
 // Create MySQL connection pool
